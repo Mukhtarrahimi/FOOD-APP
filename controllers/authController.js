@@ -40,6 +40,41 @@ const registerController = async (req, res) => {
   }
 };
 
+// LOGIN
+const loginController = async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    // validation
+    if (!username || !email) {
+      return res.status(404).send({
+        success: false,
+        message: 'Please Provide Email or Password',
+      });
+    }
+    const user = await User.findOne({ email: email, password: password });
+    // cheack
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'User Not Found or Pssword Not Match',
+      });
+    }
+    res.status(201).send({
+      success: true,
+      message: 'Login Successfully',
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error In Login API',
+      err,
+    });
+  }
+};
+
 module.exports = {
   registerController,
+  loginController,
 };
