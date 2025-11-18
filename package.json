@@ -2,9 +2,10 @@
   "name": "food-app",
   "version": "1.0.0",
   "description": "��#\u0000 \u0000F\u0000O\u0000O\u0000D\u0000-\u0000A\u0000P\u0000P\u0000\r\u0000 \u0000",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
