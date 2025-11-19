@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const connectDb = require('./config/db');
 
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // database connect
 connectDb();
@@ -18,6 +19,7 @@ app.use(express.static('public'));
 // routes
 // app.use('/api/v1/test', require('./routes/testRoutes'));
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/user', userRoutes);
 
 // server run
 const PORT = process.env.PORT || 3000;
