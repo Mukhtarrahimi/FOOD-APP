@@ -1,4 +1,6 @@
 const User = require('../models/userModel');
+const bcrypt = require('bcryptjs');
+const JWT = require('jsonwebtoken');
 // RIGESTER
 const registerController = async (req, res) => {
   try {
@@ -18,11 +20,14 @@ const registerController = async (req, res) => {
         message: 'Email Already Registered Please Login',
       });
     }
+    // hashing  password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     // create new user
     const user = await User.create({
       username,
       email,
-      password,
+      password: hashedPassword,
       address,
       phone,
     });
@@ -43,25 +48,38 @@ const registerController = async (req, res) => {
 // LOGIN
 const loginController = async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const { email, password } = req.body;
     // validation
-    if (!username || !email) {
+    if (!password || !email) {
       return res.status(404).send({
         success: false,
         message: 'Please Provide Email or Password',
       });
     }
-    const user = await User.findOne({ email: email, password: password });
+    const user = await User.findOne({ email }, { password: 0 });
     // cheack
     if (!user) {
       return res.status(404).send({
         success: false,
-        message: 'User Not Found or Pssword Not Match',
+        message: 'User Not Found',
       });
     }
+    // check password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(500).send({
+        success: false,
+        message: 'invalide creditional',
+      });
+    }
+    const token = JWT.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+    user.password = undefined;
     res.status(201).send({
       success: true,
       message: 'Login Successfully',
+      token,
       user,
     });
   } catch (err) {
