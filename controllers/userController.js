@@ -32,6 +32,25 @@ const getUser = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
+    // find user
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'User Not Found',
+      });
+    }
+    // update
+    const { username, password, phone } = req.body;
+    if (username) user.username = username;
+    if (password) user.password = password;
+    if (phone) user.phone = phone;
+    // save user
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: 'User Update Successfully',
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send({
