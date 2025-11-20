@@ -108,6 +108,41 @@ const loginController = async (req, res) => {
   }
 };
 
+// RESSET PASSWORD
+const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword, answer } = req.body;
+    if (!email || !newPassword || !answer) {
+      return res.status(500).send({
+        success: false,
+        message: 'Please Provide All Fields',
+      });
+    }
+    const user = await User.findOne({ email, answer });
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'User Not Found',
+      });
+    }
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: 'Password Reset Successful',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Rest Password API',
+      err,
+    });
+  }
+};
+
 module.exports = {
   registerController,
   loginController,
