@@ -33,6 +33,10 @@ const userSchema = mongoose.Schema(
       default:
         'https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/user-244.png',
     },
+    answer: {
+      type: String,
+      required: [true, 'Answer is required'],
+    },
   },
   { timestamps: true }
 );
