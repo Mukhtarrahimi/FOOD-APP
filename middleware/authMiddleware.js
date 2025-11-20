@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
           err,
         });
       } else {
-        req.body.id = decode.id;
+        req.user = decode; // تغییر اعمال شده به جای req.body.id
         next();
       }
     });
