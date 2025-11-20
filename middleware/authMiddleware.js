@@ -1,12 +1,21 @@
 const JWT = require('jsonwebtoken');
+
 module.exports = async (req, res, next) => {
   try {
-    const token = req.headers['authorization'].split(' ')[1];
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+      return res.status(401).send({
+        success: false,
+        message: 'Authorization header missing',
+      });
+    }
+    const token = authHeader.split(' ')[1];
     JWT.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
         return res.status(401).send({
-          seccuss: false,
-          message: 'Un-Authorize User',
+          success: false,
+          message: 'Un-Authorized User',
+          err,
         });
       } else {
         req.body.id = decode.id;
@@ -16,7 +25,7 @@ module.exports = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({
-      seccuss: false,
+      success: false,
       message: 'Error In Auth API',
       err,
     });
