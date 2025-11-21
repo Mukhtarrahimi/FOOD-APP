@@ -126,6 +126,11 @@ const updatePassword = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
     user.password = hashedPassword;
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: 'User Password Update Successfully',
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send({
