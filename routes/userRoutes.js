@@ -7,6 +7,6 @@ router.get('/getUser', authMiddleware, userController.getUser);
 router.put('/updateUser', authMiddleware, userController.updateProfile);
 router.post('/resetPassword', authMiddleware, userController.resetPassword);
 router.post('/updatePassword', authMiddleware, userController.updatePassword);
-router.delete('/deleteUser', authMiddleware, userController.deleteProfile);
+router.delete('/deleteUser/:id', authMiddleware, userController.deleteProfile);
 
 module.exports = router;
