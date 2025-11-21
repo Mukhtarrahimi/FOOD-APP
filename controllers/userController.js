@@ -145,6 +145,18 @@ const updatePassword = async (req, res) => {
 // DELTE PROFILE ACCOUNT
 const deleteProfile = async (req, res) => {
   try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(404).send({
+        success: false,
+        message: 'User Not Found',
+      });
+    }
+    await User.findByIdAndDelete(id);
+    res.status(200).send({
+      success: true,
+      message: 'Account delete Successfully',
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send({
