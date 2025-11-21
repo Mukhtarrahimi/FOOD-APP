@@ -100,6 +100,13 @@ const resetPassword = async (req, res) => {
 // UPDATE PASSWORD
 const updatePassword = async (req, res) => {
   try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'User Not found!',
+      });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send({
