@@ -172,4 +172,5 @@ module.exports = {
   updateProfile,
   resetPassword,
   updatePassword,
+  deleteProfile,
 };
