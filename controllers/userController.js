@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const bcrypt = require('bcryptjs');
 
 const getUser = async (req, res) => {
   try {
@@ -96,9 +97,11 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// UPDATE PASSWORD
+const updatePassword = async (req, res) => {};
 
 module.exports = {
   getUser,
   updateProfile,
-  resetPassword
+  resetPassword,
 };
