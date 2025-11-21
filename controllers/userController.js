@@ -116,7 +116,7 @@ const updatePassword = async (req, res) => {
         message: 'Please Provide All Fields',
       });
     }
-    const isMatch = await bcrypt.compare(oldPassword, newPassword);
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
       return res.status(500).send({
         success: false,
@@ -126,7 +126,8 @@ const updatePassword = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
     user.password = hashedPassword;
-    await user.save();
+    await user.save({ validateModifiedOnly: true });
+
     res.status(200).send({
       success: true,
       message: 'User Password Update Successfully',
