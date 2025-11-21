@@ -142,6 +142,12 @@ const updatePassword = async (req, res) => {
   }
 };
 
+// DELTE PROFILE ACCOUNT
+const deleteProfile = async (req, res) => {
+  try {
+  } catch (err) {}
+};
+
 module.exports = {
   getUser,
   updateProfile,
