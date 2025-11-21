@@ -145,7 +145,14 @@ const updatePassword = async (req, res) => {
 // DELTE PROFILE ACCOUNT
 const deleteProfile = async (req, res) => {
   try {
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Delete Profile API',
+      err,
+    });
+  }
 };
 
 module.exports = {
