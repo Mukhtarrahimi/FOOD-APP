@@ -100,11 +100,20 @@ const resetPassword = async (req, res) => {
 // UPDATE PASSWORD
 const updatePassword = async (req, res) => {
   try {
+    // get user
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).send({
         success: false,
         message: 'User Not found!',
+      });
+    }
+    // validation
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(500).send({
+        success: false,
+        message: 'Please Provide All Fields',
       });
     }
   } catch (err) {
