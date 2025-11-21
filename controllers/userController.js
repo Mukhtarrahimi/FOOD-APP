@@ -98,7 +98,17 @@ const resetPassword = async (req, res) => {
 };
 
 // UPDATE PASSWORD
-const updatePassword = async (req, res) => {};
+const updatePassword = async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Update Password User API',
+      err,
+    });
+  }
+};
 
 module.exports = {
   getUser,
