@@ -117,12 +117,15 @@ const updatePassword = async (req, res) => {
       });
     }
     const isMatch = await bcrypt.compare(oldPassword, newPassword);
-    if(!isMatch){
+    if (!isMatch) {
       return res.status(500).send({
         success: false,
-        message: "Old Password or New Password Not Match";
-      })
+        message: 'Old Password or New Password Not Match',
+      });
     }
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
   } catch (err) {
     console.log(err);
     res.status(500).send({
