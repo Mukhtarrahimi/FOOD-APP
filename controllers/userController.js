@@ -116,6 +116,13 @@ const updatePassword = async (req, res) => {
         message: 'Please Provide All Fields',
       });
     }
+    const isMatch = await bcrypt.compare(oldPassword, newPassword);
+    if(!isMatch){
+      return res.status(500).send({
+        success: false,
+        message: "Old Password or New Password Not Match";
+      })
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send({
