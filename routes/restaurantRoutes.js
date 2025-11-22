@@ -14,6 +14,6 @@ router.delete(
   restautrantController.deleteRestaurant
 );
 // UPDATE
-router.put('edit/:id', authMiddleware, restautrantController.updateRestaurant);
+router.put('/edit/:id', authMiddleware, restautrantController.updateRestaurant);
 
 module.exports = router;

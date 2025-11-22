@@ -195,7 +195,9 @@ const updateRestaurant = async (req, res) => {
 // DELETE RESTAURANT
 const deleteRestaurant = async (req, res) => {
   try {
+    // Get Id
     const restaurantId = req.params.id;
+    // validation
     if (!restaurantId) {
       return res.status(404).send({
         success: false,
