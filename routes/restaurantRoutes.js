@@ -7,5 +7,11 @@ router.post('/create', authMiddleware, restautrantController.createRestaurant);
 // GET
 router.get('/getAll', restautrantController.getAllRestaurant);
 router.get('/get/:id', restautrantController.getRestaurant);
+// DELETE
+router.delete(
+  '/delete/:id',
+  authMiddleware,
+  restautrantController.deleteRestaurant
+);
 
 module.exports = router;

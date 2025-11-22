@@ -149,4 +149,5 @@ module.exports = {
   createRestaurant,
   getAllRestaurant,
   getRestaurant,
+  deleteRestaurant,
 };
