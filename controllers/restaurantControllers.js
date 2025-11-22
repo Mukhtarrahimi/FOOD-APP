@@ -123,8 +123,25 @@ const getRestaurant = async (req, res) => {
 // DELETE RESTAURANT
 const deleteRestaurant = async (req, res) => {
   try {
+    const restaurantId = req.params.id;
+    if (!restaurantId) {
+      return res.status(404).send({
+        success: false,
+        message: 'Please Provide Id',
+      });
+    }
+    await Restaurant.findByIdAndDelete(restaurantId);
+    res.status(200).send({
+      success: true,
+      message: 'Restaurant Delete successfully',
+    });
   } catch (err) {
     console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Delete API',
+      error: err.message,
+    });
   }
 };
 
