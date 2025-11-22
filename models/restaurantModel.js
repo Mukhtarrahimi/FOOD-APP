@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const restaurantSchema = mongoose.Schema(
   {
     title: {
-      type: true,
+      type: String,
       required: [true, 'Restaurant Title is Required'],
     },
     imageUrl: {
@@ -45,15 +45,15 @@ const restaurantSchema = mongoose.Schema(
 
     coords: {
       id: { type: String },
-      latidude: { type: Number },
-      latidudeDelta: { type: Number },
+      latitude: { type: Number },
+      latitudeDelta: { type: Number },
       longitude: { type: Number },
       longitudeDelta: { type: Number },
       address: { type: String },
       title: { type: String },
     },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('Restaurant', restaurantSchema);
