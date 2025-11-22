@@ -162,13 +162,13 @@ const updateRestaurant = async (req, res) => {
         });
       }
     }
-
+    // update
     const updatedRestaurant = await Restaurant.findByIdAndUpdate(
       restaurantId,
       updateData,
       { new: true }
     );
-
+    // validition
     if (!updatedRestaurant) {
       return res.status(404).json({
         success: false,
@@ -204,6 +204,7 @@ const deleteRestaurant = async (req, res) => {
         message: 'Please Provide Id',
       });
     }
+    // delete
     await Restaurant.findByIdAndDelete(restaurantId);
     res.status(200).send({
       success: true,
