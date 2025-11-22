@@ -120,6 +120,78 @@ const getRestaurant = async (req, res) => {
   }
 };
 
+const updateRestaurant = async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+
+    if (!restaurantId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Restaurant ID is required',
+      });
+    }
+
+    const updateData = {};
+
+    const allowedFields = [
+      'title',
+      'imageUrl',
+      'foods',
+      'times',
+      'isOpen',
+      'pickup',
+      'delivery',
+      'logoUrl',
+      'rating',
+      'ratingCount',
+      'code',
+      'coords',
+    ];
+
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        updateData[field] = req.body[field];
+      }
+    });
+
+    if (updateData.coords) {
+      if (!updateData.coords.latitude || !updateData.coords.longitude) {
+        return res.status(400).json({
+          success: false,
+          message: 'Coords must include both latitude and longitude',
+        });
+      }
+    }
+
+    const updatedRestaurant = await Restaurant.findByIdAndUpdate(
+      restaurantId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedRestaurant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Restaurant not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Restaurant updated successfully',
+      restaurant: updatedRestaurant,
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      success: false,
+      message: 'Error updating restaurant',
+      error: err.message,
+    });
+  }
+};
+
 // DELETE RESTAURANT
 const deleteRestaurant = async (req, res) => {
   try {
@@ -150,4 +222,5 @@ module.exports = {
   getAllRestaurant,
   getRestaurant,
   deleteRestaurant,
+  updateRestaurant,
 };
