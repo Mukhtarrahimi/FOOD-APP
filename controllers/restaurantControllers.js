@@ -87,7 +87,35 @@ const getAllRestaurant = async (req, res) => {
     });
   }
 };
+
+// Get Restaurant By Id
+const getRestaurant = async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) {
+      return res.status(404).send({
+        success: false,
+        message: 'Restaurant Not Avalibal',
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: 'Restaurant Get successfully',
+      restaurant,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Get Restaurant By Id API',
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   createRestaurant,
   getAllRestaurant,
+  getRestaurant,
 };
