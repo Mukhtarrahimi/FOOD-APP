@@ -63,6 +63,31 @@ const createRestaurant = async (req, res) => {
   }
 };
 
+// Get All
+const getAllRestaurant = async (req, res) => {
+  try {
+    const restaurant = await User.find({});
+    if (!restaurant) {
+      return res.status(404).send({
+        success: false,
+        message: 'Restaurant Not Found',
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: 'Restaurant Get All successfully',
+      restaurant,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Get All Restaurant API',
+      error: err.message,
+    });
+  }
+};
 module.exports = {
   createRestaurant,
+  getAllRestaurant,
 };
