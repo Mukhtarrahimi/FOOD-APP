@@ -92,6 +92,12 @@ const getAllRestaurant = async (req, res) => {
 const getRestaurant = async (req, res) => {
   try {
     const restaurantId = req.params.id;
+    if (!restaurantId) {
+      return res.status(404).send({
+        success: false,
+        message: 'Please Provide Id',
+      });
+    }
     const restaurant = await Restaurant.findById(restaurantId);
     if (!restaurant) {
       return res.status(404).send({
@@ -111,6 +117,14 @@ const getRestaurant = async (req, res) => {
       message: 'Error in Get Restaurant By Id API',
       error: err.message,
     });
+  }
+};
+
+// DELETE RESTAURANT
+const deleteRestaurant = async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err);
   }
 };
 

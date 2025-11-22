@@ -6,5 +6,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 router.post('/create', authMiddleware, restautrantController.createRestaurant);
 // GET
 router.get('/getAll', restautrantController.getAllRestaurant);
+router.get('/get/:id', restautrantController.getRestaurant);
 
 module.exports = router;
