@@ -66,17 +66,17 @@ const createRestaurant = async (req, res) => {
 // Get All
 const getAllRestaurant = async (req, res) => {
   try {
-    const restaurant = await User.find({});
-    if (!restaurant) {
+    const restaurants = await Restaurant.find({});
+    if (!restaurants) {
       return res.status(404).send({
         success: false,
-        message: 'Restaurant Not Found',
+        message: 'No Restaurant Avalibal',
       });
     }
     res.status(200).send({
       success: true,
       message: 'Restaurant Get All successfully',
-      restaurant,
+      restaurants,
     });
   } catch (err) {
     console.log(err);
