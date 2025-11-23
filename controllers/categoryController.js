@@ -45,10 +45,10 @@ const updateCategory = async (req, res) => {
       });
     }
 
-    const updatedCategory = await Category.findByIdAndUpdate(
+    const editCategory = await Category.findByIdAndUpdate(
       categoryId,
       { title, imageUrl },
-      { new: true } // ← مقدار جدید را برگردان
+      { new: true }
     );
 
     if (!updatedCategory) {
@@ -61,7 +61,7 @@ const updateCategory = async (req, res) => {
     res.status(200).send({
       success: true,
       message: 'Category updated successfully',
-      category: updatedCategory,
+      category: editCategory,
     });
   } catch (err) {
     console.log(err);
