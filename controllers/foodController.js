@@ -80,4 +80,64 @@ const getAllFood = async (req, res) => {
   }
 };
 
+// UPDATE FOOD
+const updateFood = async (req, res) => {
+  try {
+    const foodId = req.params.id;
+
+    const {
+      title,
+      description,
+      price,
+      imageUrl,
+      foodTags,
+      category,
+      code,
+      isAvailable,
+      restaurant,
+      rating,
+      ratingCount,
+    } = req.body;
+
+    // Validation
+    if (!title || !description) {
+      return res.status(400).send({
+        success: false,
+        message: 'Title and Description are required',
+      });
+    }
+
+    const editeFood = await Food.findByIdAndUpdate(
+      foodId,
+      {
+        title,
+        description,
+        price,
+        imageUrl,
+        foodTags,
+        category,
+        code,
+        isAvailable,
+        restaurant,
+        rating,
+        ratingCount,
+      },
+      { new: true }
+    );
+
+    return res.status(200).send({
+      success: true,
+      message: 'Food updated successfully',
+      editeFood,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      success: false,
+      message: 'Error in Update Food API',
+      error: err.message,
+    });
+  }
+};
+
 module.exports = { createFood, getAllFood };
