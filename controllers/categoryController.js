@@ -59,6 +59,7 @@ const getAllCategory = async (req, res) => {
 // UPDATE CATEGORY
 const updateCategory = async (req, res) => {
   try {
+    console.log('BODY:', req.body);
     const categoryId = req.params.id;
     const { title, imageUrl } = req.body;
 
@@ -86,7 +87,7 @@ const updateCategory = async (req, res) => {
     res.status(200).send({
       success: true,
       message: 'Category updated successfully',
-      category: editCategory,
+      editCategory,
     });
   } catch (err) {
     console.log(err);
