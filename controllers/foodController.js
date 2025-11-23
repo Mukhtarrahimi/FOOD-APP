@@ -169,4 +169,68 @@ const deleteFood = async (req, res) => {
   }
 };
 
-module.exports = { createFood, getAllFood, updateFood, deleteFood };
+// ORDER
+const placeOrder = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { restaurant, foods, deliveryAddress, paymentMethod } = req.body;
+
+    // Validation
+    if (!restaurant || !foods || foods.length === 0 || !deliveryAddress) {
+      return res.status(400).send({
+        success: false,
+        message: 'Please provide restaurant, foods, and delivery address',
+      });
+    }
+
+    let totalPrice = 0;
+    const orderFoods = [];
+
+    for (let item of foods) {
+      const foodItem = await Food.findById(item.food);
+      if (!foodItem) {
+        return res.status(404).send({
+          success: false,
+          message: `Food with ID ${item.food} not found`,
+        });
+      }
+
+      const price = parseFloat(foodItem.price) * item.quantity;
+      totalPrice += price;
+
+      orderFoods.push({
+        food: foodItem._id,
+        quantity: item.quantity,
+        price: price,
+      });
+    }
+
+    const newOrder = await Order.create({
+      buyer: userId,
+      restaurant,
+      foods: orderFoods,
+      totalPrice,
+      deliveryAddress,
+      payment: {
+        status: 'pending',
+        method: paymentMethod || 'cash',
+      },
+      orderCode: `ORD-${Date.now()}`,
+    });
+
+    return res.status(201).send({
+      success: true,
+      message: 'Order placed successfully',
+      order: newOrder,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      success: false,
+      message: 'Error in Order API',
+      error: err.message,
+    });
+  }
+};
+
+module.exports = { createFood, getAllFood, updateFood, deleteFood, placeOrder };
