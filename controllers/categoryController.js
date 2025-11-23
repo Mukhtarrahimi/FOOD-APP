@@ -31,6 +31,31 @@ const createCategory = async (req, res) => {
   }
 };
 
+// GET ALL CATEGORY
+const getAllCategory = async (req, res) => {
+  try {
+    const categories = await Category.find({});
+    if (!categories) {
+      return res.status(404).send({
+        success: false,
+        message: 'Not avalibal categories',
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: 'All Category Get successfully',
+      categories,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Get All Category API',
+      error: err.message,
+    });
+  }
+};
+
 // UPDATE CATEGORY
 const updateCategory = async (req, res) => {
   try {
@@ -51,7 +76,7 @@ const updateCategory = async (req, res) => {
       { new: true }
     );
 
-    if (!updatedCategory) {
+    if (!editCategory) {
       return res.status(404).send({
         success: false,
         message: 'Category not found',
@@ -73,7 +98,28 @@ const updateCategory = async (req, res) => {
   }
 };
 
+// DELETE CATEGORY
+const deleteCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.id;
+    await Category.findByIdAndDelete(categoryId);
+    res.status(200).send({
+      success: true,
+      message: 'Category Delete successfully',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Delete Categroy API',
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   createCategory,
+  getAllCategory,
   updateCategory,
+  deleteCategory,
 };
