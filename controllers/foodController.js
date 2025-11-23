@@ -140,4 +140,33 @@ const updateFood = async (req, res) => {
   }
 };
 
-module.exports = { createFood, getAllFood };
+// DELETE FOOD
+const deleteFood = async (req, res) => {
+  try {
+    const foodId = req.params.id;
+
+    const food = await Food.findById(foodId);
+    if (!food) {
+      return res.status(404).send({
+        success: false,
+        message: 'Food not found',
+      });
+    }
+
+    await Food.findByIdAndDelete(foodId);
+
+    return res.status(200).send({
+      success: true,
+      message: 'Food deleted successfully',
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      success: false,
+      message: 'Error in Delete Food API',
+      error: err.message,
+    });
+  }
+};
+
+module.exports = { createFood, getAllFood, updateFood, deleteFood };

@@ -5,4 +5,7 @@ const foodController = require('../controllers/foodController');
 // CREATE || POST
 router.post('/create', authMiddleware, foodController.createFood);
 router.get('/getAll', authMiddleware, foodController.getAllFood);
+router.put('/update/:id', authMiddleware, foodController.updateFood);
+router.delete('delete/:id', authMiddleware, foodController.deleteFood);
+
 module.exports = router;
