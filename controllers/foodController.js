@@ -55,4 +55,29 @@ const createFood = async (req, res) => {
   }
 };
 
-module.exports = { createFood };
+// GET ALL FOOD
+const getAllFood = async (req, res) => {
+  try {
+    const foods = await Food.find({});
+    if (!foods) {
+      return res.status(404).send({
+        success: false,
+        message: 'Not Food Available',
+      });
+    }
+    res.status(201).send({
+      success: true,
+      message: 'All Food Get successfully',
+      foods,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Get All Food API',
+      error: err.message,
+    });
+  }
+};
+
+module.exports = { createFood, getAllFood };
